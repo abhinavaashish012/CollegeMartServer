@@ -1,5 +1,6 @@
 package com.collegemart.service;
 
+import com.collegemart.model.Category;
 import com.collegemart.model.Product;
 import com.collegemart.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,15 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public List<Product> getProductByCategory(Category category) {
+        return productRepository.findByCategory(category);
+    }
+
+    @Override
     public Product saveProduct(Product newProduct) {
         return productRepository.save(newProduct);
     }
 
-    @Override
-    public Optional<Product> getProductsByCategory(String category) {
-        return productRepository.findByCategory(category);
-    }
 
     @Override
     public void updateProduct(Long id , Product product) {

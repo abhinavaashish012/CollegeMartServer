@@ -1,10 +1,10 @@
 package com.collegemart.controller;
+import com.collegemart.model.Category;
 import com.collegemart.model.Product;
 import com.collegemart.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +22,16 @@ public class ProductController {
     }
 
     @GetMapping(path="/{id}")
-    public Optional<Product> getProductById(@RequestParam("id") Long productID)
+    public Optional<Product> getProductById(@PathVariable("id") Long productID)
     {
         return productService.getProductById(productID);
+    }
+
+    @GetMapping(path="/find")
+    public List<Product> getProductsAcc2Category(@RequestParam("category") Category category)
+    {
+        System.out.println("Inside the find by category method............");
+        return productService.getProductByCategory(category);
     }
 
     @PostMapping(path="")
@@ -53,8 +60,4 @@ public class ProductController {
             productService.deleteProduct(productId);
         }
     }
-
-
-
-
 }

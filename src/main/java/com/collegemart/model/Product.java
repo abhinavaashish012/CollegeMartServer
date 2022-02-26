@@ -20,5 +20,6 @@ public class Product {
 
     private String description;
 
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 }
