@@ -1,14 +1,8 @@
 package com.collegemart.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -18,12 +12,20 @@ import javax.persistence.Id;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "city")
     private String city;
 
+    @Column(name = "street")
     private String street;
 
-    private Long pincode;
+    @Column(name = "pinCode")
+    private Long pinCode;
+
+    //@OneToOne(fetch = FetchType.LAZY,optional = false)
+    @OneToOne(mappedBy = "address",cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id",nullable = false)
+    private User user;
 }

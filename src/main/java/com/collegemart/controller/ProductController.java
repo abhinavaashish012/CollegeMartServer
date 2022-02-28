@@ -30,7 +30,6 @@ public class ProductController {
     @GetMapping(path="/find")
     public List<Product> getProductsAcc2Category(@RequestParam("category") Category category)
     {
-        System.out.println("Inside the find by category method............");
         return productService.getProductByCategory(category);
     }
 
