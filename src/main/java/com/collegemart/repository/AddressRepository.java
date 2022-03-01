@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AddressRepository extends JpaRepository<Address,Long> {
 
-    public Long getPincodeById(Long id);
+    public Long getPincodeByAddressId(Long addressId);
 
-    public String getCityById(Long id);
+    public String getCityByAddressId(Long addressId);
 
-    public String getStreetById(Long id);
+    public String getStreetByAddressId(Long addressId);
 }

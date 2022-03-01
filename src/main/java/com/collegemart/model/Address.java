@@ -13,7 +13,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long addressId;
 
     @Column(name = "city")
     private String city;
@@ -24,8 +24,6 @@ public class Address {
     @Column(name = "pinCode")
     private Long pinCode;
 
-    //@OneToOne(fetch = FetchType.LAZY,optional = false)
     @OneToOne(mappedBy = "address",cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id",nullable = false)
     private User user;
 }

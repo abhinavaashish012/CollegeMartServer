@@ -1,7 +1,7 @@
 package com.collegemart.service;
 
 import com.collegemart.model.Category;
-import com.collegemart.model.Product;
+import com.collegemart.model.ProductInventory;
 import com.collegemart.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,29 +16,29 @@ public class ProductServiceImpl implements ProductService{
     private ProductRepository productRepository;
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<ProductInventory> getAllProducts() {
         return productRepository.findAll();
     }
 
     @Override
-    public Optional<Product> getProductById(Long id) {
-        return productRepository.findById(id);
+    public Optional<ProductInventory> getProductByProductId(Long id) {
+        return productRepository.findByProductId(id);
     }
 
     @Override
-    public List<Product> getProductByCategory(Category category) {
+    public List<ProductInventory> getProductByCategory(Category category) {
         return productRepository.findByCategory(category);
     }
 
     @Override
-    public Product saveProduct(Product newProduct) {
-        return productRepository.save(newProduct);
+    public ProductInventory saveProduct(ProductInventory newProductInventory) {
+        return productRepository.save(newProductInventory);
     }
 
 
     @Override
-    public void updateProduct(Long id , Product product) {
-        Optional<Product> p = productRepository.findById(id);
+    public void updateProduct(Long id , ProductInventory product) {
+        Optional<ProductInventory> p = productRepository.findById(id);
         if(p!=null)
         {
             p.get().setName(product.getName());
@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void deleteProduct(Long id) {
-        Optional<Product> p = productRepository.findById(id);
+        Optional<ProductInventory> p = productRepository.findById(id);
         if(p!=null)
         {
             productRepository.deleteById(id);
