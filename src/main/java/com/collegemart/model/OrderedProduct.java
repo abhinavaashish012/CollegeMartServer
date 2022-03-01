@@ -13,9 +13,9 @@ public class OrderedProduct { //ek product kitne qty me order hua
     private Long orderedProductId;
 
     private Integer quantityOrdered;
-//
-//    @ManyToOne
-//    private ProductInventory product;
+
+    @ManyToOne
+    private ProductInventory product;
 
     @ManyToMany
     @JoinTable(name = "ordered_product_and_orders_join_table",
