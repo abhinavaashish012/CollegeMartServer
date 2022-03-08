@@ -13,14 +13,28 @@ public class OrderedProduct { //ek product kitne qty me order hua
     private Long orderedProductId;
 
     private Integer quantityOrdered;
+//
+//    @ManyToOne
+//    private ProductInventory product;
 
-    @ManyToOne
+
+
+//
+//    @ManyToMany
+//    @JoinTable(name = "ordered_product_and_orders_join_table",
+//            joinColumns = {@JoinColumn(name = "orderedProductId")},
+//            inverseJoinColumns = {@JoinColumn(name = "orderId")})
+//    private List<Orders> orders; //kitne orders me hoga
+
+
+    // bohot saara ordered_product ek hi order me ho sakta h
+    @ManyToOne(optional = false , fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORDEREDPRODUCT_ID")
+    private Orders orders;
+
+
+    @ManyToOne(optional = false , fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_product_id")
     private ProductInventory product;
-
-    @ManyToMany
-    @JoinTable(name = "ordered_product_and_orders_join_table",
-            joinColumns = {@JoinColumn(name = "orderedProductId")},
-            inverseJoinColumns = {@JoinColumn(name = "orderId")})
-    private List<Orders> orders; //kitne orders me hoga
 
 }

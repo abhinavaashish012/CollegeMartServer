@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Entity
@@ -36,8 +37,8 @@ public class Orders {
 
     private BigDecimal bill;
 
-    @ManyToMany(cascade = CascadeType.ALL , mappedBy = "orders")
-    private List<OrderedProduct> orderedProductList;
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "orders")
+    private List<OrderedProduct> orderedProductList = new ArrayList<>();
 }
 
 
