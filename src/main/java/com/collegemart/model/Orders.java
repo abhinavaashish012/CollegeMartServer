@@ -1,5 +1,7 @@
 package com.collegemart.model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +10,6 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(property = "id",generator = ObjectIdGenerators.PropertyGenerator.class)
 public class Orders {
 
     @Id
@@ -29,22 +29,35 @@ public class Orders {
 //    private User user;
     private String userEmail;
 
-    @DateTimeFormat(pattern="dd/MM/yyyy")
+    @JsonFormat(pattern="dd/MM/yyyy")
     private Date orderDate;
 
-    @DateTimeFormat(pattern="dd/MM/yyyy")
+    @JsonFormat(pattern="dd/MM/yyyy")
     private Date deliveryDate;
 
-    private BigDecimal bill;
+    private Double bill;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "orders")
     private List<OrderedProduct> orderedProductList = new ArrayList<>();
+
+
+
+    @Transient
+    public Double setBill() {
+        double sum = 0D;
+        List<OrderedProduct> orderProducts = getOrderedProductList();
+        for (OrderedProduct op : orderProducts) {
+            sum += op.getTotalBill();
+        }
+        return sum;
+    }
 }
 
 
 
 
-
+//@JsonIdentityInfo(property = "id",generator = ObjectIdGenerators.PropertyGenerator.class)
 
 
 

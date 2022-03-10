@@ -3,13 +3,14 @@ import com.collegemart.model.Category;
 import com.collegemart.model.ProductInventory;
 import com.collegemart.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/product")
+@RequestMapping(value = "/api/product")//,consumes = MediaType.APPLICATION_JSON_VALUE)
 public class ProductController {
 
     @Autowired
