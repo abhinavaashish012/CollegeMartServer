@@ -19,6 +19,13 @@ public class OrderController {
 
     @PostMapping(value = "/placeOrder")
     public ResponseEntity<String> createUserRequest(@RequestBody Orders newOrder) throws IOException {
+        System.out.println("NewOrder ID = "+ newOrder.getOrderId());
+        System.out.println("NewOrder UserEmail = "+ newOrder.getUserEmail());
+        System.out.println("NewOrder ORDERDATE = "+ newOrder.getOrderDate());
+        System.out.println("NewOrder DELIVERYDATE = "+ newOrder.getDeliveryDate());
+        System.out.println("NewOrder BILL = "+ newOrder.getBill());
+        System.out.println("NewOrder List = "+ newOrder.getOrderedProductList());
+
         return orderService.createOrder(newOrder);
     }
 }

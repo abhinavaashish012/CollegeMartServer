@@ -1,8 +1,5 @@
 package com.collegemart.model;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,29 +26,23 @@ public class Orders {
 //    private User user;
     private String userEmail;
 
-    @JsonFormat(pattern="dd/MM/yyyy")
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     private Date orderDate;
 
-    @JsonFormat(pattern="dd/MM/yyyy")
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     private Date deliveryDate;
 
-    private Double bill;
+    private double bill;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "orders")
     private List<OrderedProduct> orderedProductList = new ArrayList<>();
 
 
 
-    @Transient
-    public Double setBill() {
-        double sum = 0D;
-        List<OrderedProduct> orderProducts = getOrderedProductList();
-        for (OrderedProduct op : orderProducts) {
-            sum += op.getTotalBill();
-        }
-        return sum;
-    }
+//
 }
 
 

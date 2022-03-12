@@ -41,6 +41,7 @@ public class ProductServiceImpl implements ProductService{
         Optional<ProductInventory> p = productRepository.findById(id);
         if(p!=null)
         {
+            System.out.println("Inside product service method..........");
             p.get().setName(product.getName());
             p.get().setCategory(product.getCategory());
             p.get().setDescription(product.getDescription());
@@ -57,4 +58,14 @@ public class ProductServiceImpl implements ProductService{
             productRepository.deleteById(id);
         }
     }
+
+//    @Override
+//    public Double getProductPrice(Long productId)
+//    {
+//        Optional<ProductInventory> p = productRepository.findByProductId(productId);
+//        if (p == null) {
+//            return Double.valueOf(0);
+//        }
+//        return p.get().getPrice();
+//    }
 }

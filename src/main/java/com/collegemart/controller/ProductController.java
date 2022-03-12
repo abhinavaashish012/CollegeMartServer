@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/product")//,consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/product")
 public class ProductController {
 
     @Autowired
