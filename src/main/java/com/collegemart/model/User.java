@@ -3,7 +3,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import javax.persistence.*;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -13,9 +12,6 @@ import java.util.Set;
 @Builder
 @JsonIdentityInfo(property = "id",generator = ObjectIdGenerators.PropertyGenerator.class)
 public class User {
-
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
 
     @Id
     @Column(name = "email")

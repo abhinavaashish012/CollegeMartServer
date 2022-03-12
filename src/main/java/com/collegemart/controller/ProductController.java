@@ -3,7 +3,6 @@ import com.collegemart.model.Category;
 import com.collegemart.model.ProductInventory;
 import com.collegemart.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,7 +41,6 @@ public class ProductController {
         System.out.println("product description :"+ product.getDescription());
         System.out.println("product quantity :"+ product.getAvailableQty());
         System.out.println("product category :"+ product.getCategory());
-
         return productService.saveProduct(product);
     }
 

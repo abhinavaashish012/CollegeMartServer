@@ -13,5 +13,6 @@ public interface ProductService {
     ProductInventory saveProduct(ProductInventory newProduct);
     void updateProduct(Long id, ProductInventory p);
     void deleteProduct(Long id);
-    //public Double getProductPrice(Long productId);
+
+    public Double getProductPrice(Long productId);
 }

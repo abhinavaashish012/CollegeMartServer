@@ -59,13 +59,13 @@ public class ProductServiceImpl implements ProductService{
         }
     }
 
-//    @Override
-//    public Double getProductPrice(Long productId)
-//    {
-//        Optional<ProductInventory> p = productRepository.findByProductId(productId);
-//        if (p == null) {
-//            return Double.valueOf(0);
-//        }
-//        return p.get().getPrice();
-//    }
+    @Override
+    public Double getProductPrice(Long productId)
+    {
+        Optional<ProductInventory> p = productRepository.findByProductId(productId);
+        if (p == null) {
+            return Double.valueOf(0);
+        }
+        return p.get().getPrice();
+    }
 }

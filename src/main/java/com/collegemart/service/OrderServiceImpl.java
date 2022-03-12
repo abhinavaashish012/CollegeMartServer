@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 
 @Service
@@ -18,12 +17,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-//    @Autowired
-//    private OrderedProductRepository orderedProductRepository;
-
+    //to fetch the product id and thereby its cost
     @Autowired
     private ProductService productService;
-
 
     @Transactional
     public ResponseEntity<String> createOrder(Orders order) {
@@ -36,34 +32,28 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("Inside OrderService ");
             System.out.println("Bill : " + order.getBill());
             System.out.println("The number of ordered products are as follows : "+ orderProducts.size());
-            for(int i=0;i<orderProducts.size();i++)
-                System.out.println("Product ID : " + orderProducts.get(i).getProductId());
-            //bill needs to be calculated for each of the product
 
-           // @Transient
-//    public Double setBill(Orders o) {
-//        double sum = 0D;
-//        System.out.println("Inside setbill fn :");
-//        List<OrderedProduct> orderProducts = o.getOrderedProductList();
-//        for (OrderedProduct op : orderProducts) {
-//
-//            // fetching the price of products
-//            Long pId= op.getOrderedProductId();
-//
-//
-//
-//             sum += op.getTotalBill();
-//        }
-//        System.out.println("Calculated the bill : "+ sum);
-//        return sum;
-//    }
-            Double totalPrice = order.getBill();
+            //Bill needs to be calculated for each of the product
+            Double totalPrice=0D;
+
+            for(int i=0;i<orderProducts.size();i++)
+            {
+                Long pID=orderProducts.get(i).getProductId();
+                if (pID == null) {
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST, "This order cannot be created!");
+                }
+                Long qty= orderProducts.get(i).getQuantityOrdered();
+                System.out.println("Product ID : " + pID);
+                totalPrice+= productService.getProductPrice(pID)*qty;
+            }
+
 
             newOrder.setUserEmail(userEmail);
             System.out.println("Useremail set for new order");
 
             newOrder.setBill(totalPrice);
-            System.out.println("bill set for new order");
+            System.out.println("bill set for new order = "+totalPrice);
 
             newOrder.setOrderedProductList(orderProducts);
             System.out.println("OrderedProductList set for new order");
@@ -74,11 +64,10 @@ public class OrderServiceImpl implements OrderService {
             newOrder.setDeliveryDate(order.getDeliveryDate());
             System.out.println("DeliveryDate set for new order");
 
-            //orderedProductRepository.save(order.getOrderedProduct());
             orderRepository.save(newOrder);
             System.out.println("neworder saved");
 
-            System.out.println("=======================");
+            System.out.println("*******************************************************************");
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("Order has been created!(" + HttpStatus.CREATED + ")");
