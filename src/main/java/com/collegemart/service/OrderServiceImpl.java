@@ -1,7 +1,9 @@
 package com.collegemart.service;
 
+import com.collegemart.exceptions.IdNotFoundException;
 import com.collegemart.model.OrderedProduct;
 import com.collegemart.model.Orders;
+import com.collegemart.model.ProductInventory;
 import com.collegemart.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("Useremail set for new order");
 
             newOrder.setBill(totalPrice);
-            System.out.println("bill set for new order = "+totalPrice);
+            System.out.println("Bill set for new order = "+totalPrice);
 
             newOrder.setOrderedProductList(orderProducts);
             System.out.println("OrderedProductList set for new order");
@@ -70,9 +72,6 @@ public class OrderServiceImpl implements OrderService {
 
             System.out.println("*******************************************************************");
             return newOrder;
-//            return ResponseEntity
-//                    .status(HttpStatus.CREATED)
-//                    .body("Order has been created!(" + HttpStatus.CREATED + ")");
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "This order cannot be created!", e);
@@ -81,8 +80,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Optional<Orders> getOrderById(Long id) {
-        Orders o = orderRepository.findById(id).get();
-        return Optional.of(o);
+        if(id < 0 )
+        {
+            throw new IdNotFoundException("Exception : Order Id can't be negative.....");
+        }
+        Optional<Orders> o = orderRepository.findById(id);
+        if(o.isPresent()==false)
+        {
+            throw new IdNotFoundException("Product with id : "+ id+" not found.");
+        }
+        return o;
     }
 
     @Override
@@ -90,5 +97,7 @@ public class OrderServiceImpl implements OrderService {
     {
         return orderRepository.findAll();
     }
+
+
 
 }

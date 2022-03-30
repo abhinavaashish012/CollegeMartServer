@@ -1,4 +1,6 @@
 package com.collegemart.controller;
+import com.collegemart.exceptions.CategoryNotFoundException;
+import com.collegemart.exceptions.GlobalExceptionHandler;
 import com.collegemart.model.Category;
 import com.collegemart.model.ProductInventory;
 import com.collegemart.service.ProductService;
@@ -6,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -46,8 +48,7 @@ public class ProductController {
     }
 
     @GetMapping(path="/find")
-    public ResponseEntity<List<ProductInventory>> getProductsAcc2Category(@RequestParam("category") Category category)
-    {
+    public ResponseEntity<List<ProductInventory>> getProductsAcc2Category(@RequestParam("category") Category category)  {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("desc","Product List for Category "+category);
         httpHeaders.add("type","Product List with Category = "+ category);

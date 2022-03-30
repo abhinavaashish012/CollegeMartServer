@@ -1,11 +1,11 @@
 package com.collegemart.service;
-
+import com.collegemart.exceptions.IdNotFoundException;
+import com.collegemart.exceptions.ProductNotFoundException;
 import com.collegemart.model.Category;
 import com.collegemart.model.ProductInventory;
 import com.collegemart.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -17,16 +17,38 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<ProductInventory> getAllProducts() {
+
+        List<ProductInventory> productInventoryList = productRepository.findAll();
+        if (productInventoryList == null) {
+            throw new ProductNotFoundException("No products in the inventory...");
+        }
         return productRepository.findAll();
     }
 
     @Override
     public Optional<ProductInventory> getProductByProductId(Long id) {
-        return productRepository.findByProductId(id);
+
+        if(id < 0 )
+        {
+            throw new RuntimeException("Exception : Product Id can't be negative....");
+        }
+
+        Optional<ProductInventory> p = productRepository.findByProductId(id);
+        if (p.isPresent()!=false)
+        {
+            return p;
+        }
+        else
+            throw new IdNotFoundException("Product with the id : "+id+" does not exist.");
     }
 
     @Override
     public List<ProductInventory> getProductByCategory(Category category) {
+        List<ProductInventory> productInventoryList = productRepository.findByCategory(category);
+
+        if (productInventoryList == null) {
+            throw new ProductNotFoundException("Products for this category are not present");
+        }
         return productRepository.findByCategory(category);
     }
 
