@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -22,7 +23,7 @@ public class OrderServiceImpl implements OrderService {
     private ProductService productService;
 
     @Transactional
-    public ResponseEntity<String> createOrder(Orders order) {
+    public Orders createOrder(Orders order) {
         try {
             Orders newOrder = new Orders();
 
@@ -68,13 +69,26 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("neworder saved");
 
             System.out.println("*******************************************************************");
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body("Order has been created!(" + HttpStatus.CREATED + ")");
+            return newOrder;
+//            return ResponseEntity
+//                    .status(HttpStatus.CREATED)
+//                    .body("Order has been created!(" + HttpStatus.CREATED + ")");
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "This order cannot be created!", e);
         }
+    }
+
+    @Override
+    public Optional<Orders> getOrderById(Long id) {
+        Orders o = orderRepository.findById(id).get();
+        return Optional.of(o);
+    }
+
+    @Override
+    public List<Orders> getAllOrders()
+    {
+        return orderRepository.findAll();
     }
 
 }
